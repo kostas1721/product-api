@@ -44,6 +44,9 @@ COPY --from=build /bin/server /bin/
 USER root
 RUN chmod +x /bin/server  # Ensure the binary is executable
 
+# Create a writable directory for the SQLite database
+RUN mkdir -p /tmp/data/database && chown -R 10001:10001 /tmp/data/database
+
 # Create a non-privileged user that the app will run under.
 ARG UID=10001
 RUN adduser \

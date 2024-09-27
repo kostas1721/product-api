@@ -9,7 +9,7 @@ import (
     "github.com/kostas1721/product-api/models"
 )
 
-// GET /products
+// GET /v1/products
 func GetProducts(c *gin.Context) {
     limitStr := c.DefaultQuery("limit", "10")
     pageStr := c.DefaultQuery("page", "1")
@@ -31,8 +31,7 @@ func GetProducts(c *gin.Context) {
     c.JSON(http.StatusOK, products)
 }
 
-
-// GET /products/:id
+// GET /v1/products/:id
 func GetProductByID(c *gin.Context) {
     id := c.Param("id")
     var product models.Product
@@ -46,7 +45,7 @@ func GetProductByID(c *gin.Context) {
     c.JSON(http.StatusOK, product)
 }
 
-// POST /products
+// POST /v1/products
 func CreateProduct(c *gin.Context) {
     var product models.Product
     if err := c.ShouldBindJSON(&product); err != nil {
@@ -54,8 +53,18 @@ func CreateProduct(c *gin.Context) {
         return
     }
 
-    result, _ := database.DB.Exec("INSERT INTO products (name, description, price) VALUES (?, ?, ?)",
+    // Ensure that name, description, and price are provided
+    if product.Name == "" || product.Description == "" || product.Price <= 0 {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid product data"})
+        return
+    }
+
+    result, err := database.DB.Exec("INSERT INTO products (name, description, price) VALUES (?, ?, ?)",
         product.Name, product.Description, product.Price)
+    if err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+        return
+    }
 
     id, _ := result.LastInsertId()
     product.ID = int(id)
@@ -63,12 +72,18 @@ func CreateProduct(c *gin.Context) {
     c.JSON(http.StatusCreated, product)
 }
 
-// PUT /products/:id
+// PUT /v1/products/:id
 func UpdateProduct(c *gin.Context) {
     id := c.Param("id")
     var product models.Product
     if err := c.ShouldBindJSON(&product); err != nil {
         c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+        return
+    }
+
+    // Ensure that name, description, and price are provided
+    if product.Name == "" || product.Description == "" || product.Price <= 0 {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid product data"})
         return
     }
 
@@ -82,7 +97,7 @@ func UpdateProduct(c *gin.Context) {
     c.JSON(http.StatusOK, product)
 }
 
-// DELETE /products/:id
+// DELETE /v1/products/:id
 func DeleteProduct(c *gin.Context) {
     id := c.Param("id")
     _, err := database.DB.Exec("DELETE FROM products WHERE id = ?", id)
