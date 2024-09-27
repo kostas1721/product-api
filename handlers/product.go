@@ -10,7 +10,7 @@ import (
 )
 
 // GET /products
-func getProducts(c *gin.Context) {
+func GetProducts(c *gin.Context) {
     limitStr := c.DefaultQuery("limit", "10")
     pageStr := c.DefaultQuery("page", "1")
 
@@ -33,7 +33,7 @@ func getProducts(c *gin.Context) {
 
 
 // GET /products/:id
-func getProductByID(c *gin.Context) {
+func GetProductByID(c *gin.Context) {
     id := c.Param("id")
     var product models.Product
     row := database.DB.QueryRow("SELECT id, name, description, price FROM products WHERE id = ?", id)
@@ -47,7 +47,7 @@ func getProductByID(c *gin.Context) {
 }
 
 // POST /products
-func createProduct(c *gin.Context) {
+func CreateProduct(c *gin.Context) {
     var product models.Product
     if err := c.ShouldBindJSON(&product); err != nil {
         c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -64,7 +64,7 @@ func createProduct(c *gin.Context) {
 }
 
 // PUT /products/:id
-func updateProduct(c *gin.Context) {
+func UpdateProduct(c *gin.Context) {
     id := c.Param("id")
     var product models.Product
     if err := c.ShouldBindJSON(&product); err != nil {
@@ -83,7 +83,7 @@ func updateProduct(c *gin.Context) {
 }
 
 // DELETE /products/:id
-func deleteProduct(c *gin.Context) {
+func DeleteProduct(c *gin.Context) {
     id := c.Param("id")
     _, err := database.DB.Exec("DELETE FROM products WHERE id = ?", id)
     if err != nil {
