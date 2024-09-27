@@ -1,4 +1,4 @@
-package main
+package handlers
 
 import (
     "net/http"
@@ -6,7 +6,7 @@ import (
 
     "github.com/gin-gonic/gin"
     "github.com/kostas1721/product-api/database"
-    "product-api/models"
+    "github.com/kostas1721/product-api/models"
 )
 
 // GET /products

@@ -13,11 +13,11 @@ func main() {
     database.InitDB()
 
     // Routes for CRUD operations
-    router.GET("/products", getProducts)
-    router.GET("/products/:id", getProductByID)
-    router.POST("/products", createProduct)
-    router.PUT("/products/:id", updateProduct)
-    router.DELETE("/products/:id", deleteProduct)
+    router.GET("/products", handlers.getProducts)
+    router.GET("/products/:id", handlers.getProductByID)
+    router.POST("/products", handlers.createProduct)
+    router.PUT("/products/:id", handlers.updateProduct)
+    router.DELETE("/products/:id", handlers.deleteProduct)
 
     router.Run(":8080")
 }
