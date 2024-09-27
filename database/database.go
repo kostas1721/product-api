@@ -9,7 +9,7 @@ var DB *sql.DB
 
 func InitDB() {
     var err error
-    DB, err = sql.Open("sqlite3", "./products.db")
+    DB, err = sql.Open("sqlite", "./products.db")
     if err != nil {
         panic(err)
     }
