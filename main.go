@@ -17,5 +17,5 @@ func main() {
     router.PUT("/products/:id", handlers.UpdateProduct)
     router.DELETE("/products/:id", handlers.DeleteProduct)
 
-    router.Run(":8080")
+    router.Run(":1721")
 }

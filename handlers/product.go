@@ -9,7 +9,7 @@ import (
     "github.com/kostas1721/product-api/models"
 )
 
-// GET /v1/products
+// GET /products
 func GetProducts(c *gin.Context) {
     limitStr := c.DefaultQuery("limit", "10")
     pageStr := c.DefaultQuery("page", "1")
@@ -31,7 +31,7 @@ func GetProducts(c *gin.Context) {
     c.JSON(http.StatusOK, products)
 }
 
-// GET /v1/products/:id
+// GET /products/:id
 func GetProductByID(c *gin.Context) {
     id := c.Param("id")
     var product models.Product
@@ -45,7 +45,7 @@ func GetProductByID(c *gin.Context) {
     c.JSON(http.StatusOK, product)
 }
 
-// POST /v1/products
+// POST /products
 func CreateProduct(c *gin.Context) {
     var product models.Product
     if err := c.ShouldBindJSON(&product); err != nil {
@@ -72,7 +72,7 @@ func CreateProduct(c *gin.Context) {
     c.JSON(http.StatusCreated, product)
 }
 
-// PUT /v1/products/:id
+// PUT /products/:id
 func UpdateProduct(c *gin.Context) {
     id := c.Param("id")
     var product models.Product
@@ -97,7 +97,7 @@ func UpdateProduct(c *gin.Context) {
     c.JSON(http.StatusOK, product)
 }
 
-// DELETE /v1/products/:id
+// DELETE /products/:id
 func DeleteProduct(c *gin.Context) {
     id := c.Param("id")
     _, err := database.DB.Exec("DELETE FROM products WHERE id = ?", id)
