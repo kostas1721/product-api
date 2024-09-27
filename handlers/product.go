@@ -5,7 +5,7 @@ import (
     "strconv"
 
     "github.com/gin-gonic/gin"
-    "product-api/database"
+    "github.com/kostas1721/product-api/database"
     "product-api/models"
 )
 

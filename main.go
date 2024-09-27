@@ -3,7 +3,9 @@ package main
 import (
     "net/http"
     "github.com/gin-gonic/gin"
-    "product-api/database"
+    "github.com/kostas1721/product-api/database"
+	"github.com/kostas1721/product-api/handlers"
+	"github.com/kostas1721/product-api/models"
 )
 
 func main() {
